@@ -39,10 +39,9 @@ Scegli il modo più comodo per te — fanno esattamente la stessa cosa. Per la m
 
 ### Modalità A — Chrome Web Store (consigliata) ⭐
 
-![Chrome](https://img.shields.io/badge/Chrome-4285F4?logo=googlechrome&logoColor=white)
-![Edge](https://img.shields.io/badge/Edge-0078D7?logo=microsoftedge&logoColor=white)
-![Brave](https://img.shields.io/badge/Brave-FB542B?logo=brave&logoColor=white)
-![Dia](https://img.shields.io/badge/Dia-000000?logo=googlechrome&logoColor=white)
+<img src="docs/icons/chrome.svg" height="24" alt="Chrome" title="Chrome">&nbsp;
+<img src="docs/icons/edge.svg" height="24" alt="Microsoft Edge" title="Microsoft Edge">&nbsp;
+<img src="docs/icons/brave.svg" height="24" alt="Brave" title="Brave">
 
 Installazione ufficiale con un clic, con aggiornamenti automatici. Funziona su Chrome e su qualsiasi browser basato su Chromium (Edge, Brave, Dia, ecc.).
 
@@ -54,9 +53,9 @@ Installazione ufficiale con un clic, con aggiornamenti automatici. Funziona su C
 
 ### Modalità B — Carica la cartella `estensione/` (sviluppatori)
 
-![Chrome](https://img.shields.io/badge/Chrome-4285F4?logo=googlechrome&logoColor=white)
-![Edge](https://img.shields.io/badge/Edge-0078D7?logo=microsoftedge&logoColor=white)
-![Brave](https://img.shields.io/badge/Brave-FB542B?logo=brave&logoColor=white)
+<img src="docs/icons/chrome.svg" height="24" alt="Chrome" title="Chrome">&nbsp;
+<img src="docs/icons/edge.svg" height="24" alt="Microsoft Edge" title="Microsoft Edge">&nbsp;
+<img src="docs/icons/brave.svg" height="24" alt="Brave" title="Brave">
 
 L'estensione caricata "non pacchettizzata" direttamente dai sorgenti. Utile per provare le ultime modifiche prima che arrivino sullo store, o per sviluppare.
 
@@ -70,11 +69,12 @@ L'estensione caricata "non pacchettizzata" direttamente dai sorgenti. Utile per 
 
 ### Modalità C — Userscript (`wa-copy-poll.user.js`)
 
-![Firefox](https://img.shields.io/badge/Firefox-FF7139?logo=firefoxbrowser&logoColor=white)
-![Chrome](https://img.shields.io/badge/Chrome-4285F4?logo=googlechrome&logoColor=white)
-![Edge](https://img.shields.io/badge/Edge-0078D7?logo=microsoftedge&logoColor=white)
+<img src="docs/icons/firefox.svg" height="24" alt="Firefox" title="Firefox">&nbsp;
+<img src="docs/icons/chrome.svg" height="24" alt="Chrome" title="Chrome">&nbsp;
+<img src="docs/icons/edge.svg" height="24" alt="Microsoft Edge" title="Microsoft Edge">
+&nbsp;&nbsp;·&nbsp;&nbsp;
 ![Tampermonkey](https://img.shields.io/badge/Tampermonkey-00485B?logo=tampermonkey&logoColor=white)
-![Violentmonkey](https://img.shields.io/badge/Violentmonkey-663399?logo=violentmonkey&logoColor=white)
+![Violentmonkey](https://img.shields.io/badge/Violentmonkey-663399)
 
 Stessa funzionalità in un unico file, gestito da un'estensione "gestore di userscript" come **Tampermonkey** o **Violentmonkey**. Consigliata se già usi Tampermonkey o vuoi installare/aggiornare con un clic, anche su Firefox.
 
@@ -92,7 +92,7 @@ Stessa funzionalità in un unico file, gestito da un'estensione "gestore di user
 | Per chi | tutti | sviluppatori | chi usa Tampermonkey |
 | Installazione | un clic | carichi una cartella | un clic sul file Raw |
 | Serve un'app in più | no | no | sì (Tampermonkey/Violentmonkey) |
-| Browser | ![Chrome](https://img.shields.io/badge/-4285F4?logo=googlechrome&logoColor=white) ![Edge](https://img.shields.io/badge/-0078D7?logo=microsoftedge&logoColor=white) ![Brave](https://img.shields.io/badge/-FB542B?logo=brave&logoColor=white) | ![Chrome](https://img.shields.io/badge/-4285F4?logo=googlechrome&logoColor=white) ![Edge](https://img.shields.io/badge/-0078D7?logo=microsoftedge&logoColor=white) ![Brave](https://img.shields.io/badge/-FB542B?logo=brave&logoColor=white) | ![Firefox](https://img.shields.io/badge/-FF7139?logo=firefoxbrowser&logoColor=white) ![Chrome](https://img.shields.io/badge/-4285F4?logo=googlechrome&logoColor=white) ![Edge](https://img.shields.io/badge/-0078D7?logo=microsoftedge&logoColor=white) |
+| Browser | <img src="docs/icons/chrome.svg" height="18" alt="Chrome" title="Chrome"> <img src="docs/icons/edge.svg" height="18" alt="Edge" title="Microsoft Edge"> <img src="docs/icons/brave.svg" height="18" alt="Brave" title="Brave"> | <img src="docs/icons/chrome.svg" height="18" alt="Chrome" title="Chrome"> <img src="docs/icons/edge.svg" height="18" alt="Edge" title="Microsoft Edge"> <img src="docs/icons/brave.svg" height="18" alt="Brave" title="Brave"> | <img src="docs/icons/firefox.svg" height="18" alt="Firefox" title="Firefox"> <img src="docs/icons/chrome.svg" height="18" alt="Chrome" title="Chrome"> <img src="docs/icons/edge.svg" height="18" alt="Edge" title="Microsoft Edge"> |
 | Aggiornamento | automatico | ↻ manuale | automatico (se la versione cresce) |
 
 In entrambi i casi il codice è lo stesso e nessun dato viene raccolto o inviato: tutto resta in locale nel browser.
