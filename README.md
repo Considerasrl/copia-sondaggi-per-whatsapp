@@ -2,6 +2,8 @@
 
 ![Copia sondaggi per WhatsApp Web](estensione/store-1280x800.png)
 
+[![Disponibile sul Chrome Web Store](https://img.shields.io/badge/Chrome_Web_Store-Installa-4285F4?logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/copia-sondaggi-per-whatsa/okhehibbboeojefajcjcikeehgkijnfk)
+
 Estensione Chrome che aggiunge la voce **"Copia sondaggio"** al menu dei messaggi di [WhatsApp Web](https://web.whatsapp.com).
 Con un clic copia negli appunti le opzioni votate del sondaggio nel formato `x{voti} opzione`, una per riga — pronte da incollare in una nota, un foglio o una chat.
 
@@ -33,25 +35,40 @@ x3 Opzione C
 
 ## Installazione
 
-Ci sono due modi per usare l'estensione. Fanno esattamente la stessa cosa: scegli quello più comodo per te.
+Scegli il modo più comodo per te — fanno esattamente la stessa cosa. Per la maggior parte degli utenti è la **Modalità A**.
 
-### Modalità A — Estensione Chrome (cartella `estensione/`)
+### Modalità A — Chrome Web Store (consigliata) ⭐
+
+![Chrome](https://img.shields.io/badge/Chrome-4285F4?logo=googlechrome&logoColor=white)
+![Edge](https://img.shields.io/badge/Edge-0078D7?logo=microsoftedge&logoColor=white)
+![Brave](https://img.shields.io/badge/Brave-FB542B?logo=brave&logoColor=white)
+![Dia](https://img.shields.io/badge/Dia-000000?logo=googlechrome&logoColor=white)
+
+Installazione ufficiale con un clic, con aggiornamenti automatici. Funziona su Chrome e su qualsiasi browser basato su Chromium (Edge, Brave, Dia, ecc.).
+
+1. Apri la pagina dello store: **[Copia sondaggi per WhatsApp Web](https://chromewebstore.google.com/detail/copia-sondaggi-per-whatsa/okhehibbboeojefajcjcikeehgkijnfk)**
+2. Clicca **Aggiungi** (o **Installa**) e conferma.
+3. Fatto: apri `web.whatsapp.com` e trovi la voce **"Copia sondaggio"** nel menu dei messaggi con sondaggio.
+
+> Su browser Chromium diversi da Chrome (Edge, Brave, Dia…) la pagina dello store si apre allo stesso link: accetta l'installazione di estensioni dal Chrome Web Store e clicca **Aggiungi**.
+
+### Modalità B — Carica la cartella `estensione/` (sviluppatori)
 
 ![Chrome](https://img.shields.io/badge/Chrome-4285F4?logo=googlechrome&logoColor=white)
 ![Edge](https://img.shields.io/badge/Edge-0078D7?logo=microsoftedge&logoColor=white)
 ![Brave](https://img.shields.io/badge/Brave-FB542B?logo=brave&logoColor=white)
 
-È l'estensione vera e propria, caricata da Chrome in "modalità sviluppatore". Consigliata se usi Chrome/Edge/Brave e vuoi qualcosa di stabile che resta installato.
+L'estensione caricata "non pacchettizzata" direttamente dai sorgenti. Utile per provare le ultime modifiche prima che arrivino sullo store, o per sviluppare.
 
 1. Scarica il progetto: pulsante verde **Code › Download ZIP** in cima alla pagina GitHub, poi estrai lo ZIP (oppure `git clone` del repository).
 2. Apri il browser su `chrome://extensions` (su Edge: `edge://extensions`, su Brave: `brave://extensions`).
 3. Attiva l'interruttore **Modalità sviluppatore** (in alto a destra).
 4. Clicca **Carica estensione non pacchettizzata** e seleziona la cartella **`estensione/`** (quella che contiene `manifest.json`).
-5. Fatto: apri `web.whatsapp.com` e trovi la voce **"Copia sondaggio"** nel menu dei messaggi con sondaggio.
+5. Fatto: apri `web.whatsapp.com` e trovi la voce **"Copia sondaggio"** nel menu.
 
-> Nota: la "modalità sviluppatore" è necessaria perché l'estensione non è (ancora) pubblicata sul Chrome Web Store. Non cancellare la cartella dopo l'installazione: Chrome la carica da lì a ogni avvio. Per aggiornare, sostituisci i file e clicca l'icona **↻ Aggiorna** sulla scheda dell'estensione.
+> Nota: non cancellare la cartella dopo l'installazione — Chrome la carica da lì a ogni avvio. Per aggiornare, sostituisci i file e clicca l'icona **↻ Aggiorna** sulla scheda dell'estensione.
 
-### Modalità B — Userscript (`wa-copy-poll.user.js`)
+### Modalità C — Userscript (`wa-copy-poll.user.js`)
 
 ![Firefox](https://img.shields.io/badge/Firefox-FF7139?logo=firefoxbrowser&logoColor=white)
 ![Chrome](https://img.shields.io/badge/Chrome-4285F4?logo=googlechrome&logoColor=white)
@@ -70,12 +87,13 @@ Stessa funzionalità in un unico file, gestito da un'estensione "gestore di user
 
 ### Quale scegliere?
 
-| | Estensione (Modalità A) | Userscript (Modalità B) |
-|---|---|---|
-| Installazione | carichi una cartella | un clic sul file Raw |
-| Serve un'app in più | no | sì (Tampermonkey/Violentmonkey) |
-| Browser | ![Chrome](https://img.shields.io/badge/-4285F4?logo=googlechrome&logoColor=white) ![Edge](https://img.shields.io/badge/-0078D7?logo=microsoftedge&logoColor=white) ![Brave](https://img.shields.io/badge/-FB542B?logo=brave&logoColor=white) | ![Firefox](https://img.shields.io/badge/-FF7139?logo=firefoxbrowser&logoColor=white) ![Chrome](https://img.shields.io/badge/-4285F4?logo=googlechrome&logoColor=white) ![Edge](https://img.shields.io/badge/-0078D7?logo=microsoftedge&logoColor=white) |
-| Aggiornamento | ↻ manuale | automatico (se la versione cresce) |
+| | A · Web Store | B · Cartella | C · Userscript |
+|---|---|---|---|
+| Per chi | tutti | sviluppatori | chi usa Tampermonkey |
+| Installazione | un clic | carichi una cartella | un clic sul file Raw |
+| Serve un'app in più | no | no | sì (Tampermonkey/Violentmonkey) |
+| Browser | ![Chrome](https://img.shields.io/badge/-4285F4?logo=googlechrome&logoColor=white) ![Edge](https://img.shields.io/badge/-0078D7?logo=microsoftedge&logoColor=white) ![Brave](https://img.shields.io/badge/-FB542B?logo=brave&logoColor=white) | ![Chrome](https://img.shields.io/badge/-4285F4?logo=googlechrome&logoColor=white) ![Edge](https://img.shields.io/badge/-0078D7?logo=microsoftedge&logoColor=white) ![Brave](https://img.shields.io/badge/-FB542B?logo=brave&logoColor=white) | ![Firefox](https://img.shields.io/badge/-FF7139?logo=firefoxbrowser&logoColor=white) ![Chrome](https://img.shields.io/badge/-4285F4?logo=googlechrome&logoColor=white) ![Edge](https://img.shields.io/badge/-0078D7?logo=microsoftedge&logoColor=white) |
+| Aggiornamento | automatico | ↻ manuale | automatico (se la versione cresce) |
 
 In entrambi i casi il codice è lo stesso e nessun dato viene raccolto o inviato: tutto resta in locale nel browser.
 
