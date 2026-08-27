@@ -31,11 +31,43 @@ x3 Opzione C
 - `estensione/` — estensione Chrome (`manifest.json`, `content.js`, icone, materiali per lo store)
 - `wa-copy-poll.user.js` — versione userscript (Tampermonkey/Violentmonkey)
 
-## Installazione (modalità sviluppatore)
+## Installazione
 
-1. Vai su `chrome://extensions`
-2. Attiva la **Modalità sviluppatore**
-3. **Carica estensione non pacchettizzata** → seleziona la cartella `estensione/`
+Ci sono due modi per usare l'estensione. Fanno esattamente la stessa cosa: scegli quello più comodo per te.
+
+### Modalità A — Estensione Chrome (cartella `estensione/`)
+
+È l'estensione vera e propria, caricata da Chrome in "modalità sviluppatore". Consigliata se usi Chrome/Edge/Brave e vuoi qualcosa di stabile che resta installato.
+
+1. Scarica il progetto: pulsante verde **Code › Download ZIP** in cima alla pagina GitHub, poi estrai lo ZIP (oppure `git clone` del repository).
+2. Apri il browser su `chrome://extensions` (su Edge: `edge://extensions`, su Brave: `brave://extensions`).
+3. Attiva l'interruttore **Modalità sviluppatore** (in alto a destra).
+4. Clicca **Carica estensione non pacchettizzata** e seleziona la cartella **`estensione/`** (quella che contiene `manifest.json`).
+5. Fatto: apri `web.whatsapp.com` e trovi la voce **"Copia sondaggio"** nel menu dei messaggi con sondaggio.
+
+> Nota: la "modalità sviluppatore" è necessaria perché l'estensione non è (ancora) pubblicata sul Chrome Web Store. Non cancellare la cartella dopo l'installazione: Chrome la carica da lì a ogni avvio. Per aggiornare, sostituisci i file e clicca l'icona **↻ Aggiorna** sulla scheda dell'estensione.
+
+### Modalità B — Userscript (`wa-copy-poll.user.js`)
+
+Stessa funzionalità in un unico file, gestito da un'estensione "gestore di userscript" come **Tampermonkey** o **Violentmonkey**. Consigliata se già usi Tampermonkey o vuoi installare/aggiornare con un clic, anche su Firefox.
+
+1. Installa **[Tampermonkey](https://www.tampermonkey.net/)** (o Violentmonkey) dal web store del tuo browser.
+2. Apri il file [`wa-copy-poll.user.js`](wa-copy-poll.user.js) in versione **raw**: sulla pagina GitHub del file, clicca il pulsante **Raw**.
+3. Tampermonkey riconosce lo userscript e apre la schermata di installazione: clicca **Installa**.
+4. Fatto: apri `web.whatsapp.com` e trovi la voce **"Copia sondaggio"** nel menu.
+
+> Nota: gli aggiornamenti automatici di Tampermonkey scattano quando il numero di `@version` **cresce**. Per aggiornare manualmente, reinstalla dal link Raw.
+
+### Quale scegliere?
+
+| | Estensione (Modalità A) | Userscript (Modalità B) |
+|---|---|---|
+| Installazione | carichi una cartella | un clic sul file Raw |
+| Serve un'app in più | no | sì (Tampermonkey/Violentmonkey) |
+| Browser | Chrome, Edge, Brave | anche Firefox |
+| Aggiornamento | ↻ manuale | automatico (se la versione cresce) |
+
+In entrambi i casi il codice è lo stesso e nessun dato viene raccolto o inviato: tutto resta in locale nel browser.
 
 ---
 
