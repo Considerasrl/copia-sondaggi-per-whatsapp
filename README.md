@@ -37,6 +37,10 @@ Ci sono due modi per usare l'estensione. Fanno esattamente la stessa cosa: scegl
 
 ### Modalità A — Estensione Chrome (cartella `estensione/`)
 
+![Chrome](https://img.shields.io/badge/Chrome-4285F4?logo=googlechrome&logoColor=white)
+![Edge](https://img.shields.io/badge/Edge-0078D7?logo=microsoftedge&logoColor=white)
+![Brave](https://img.shields.io/badge/Brave-FB542B?logo=brave&logoColor=white)
+
 È l'estensione vera e propria, caricata da Chrome in "modalità sviluppatore". Consigliata se usi Chrome/Edge/Brave e vuoi qualcosa di stabile che resta installato.
 
 1. Scarica il progetto: pulsante verde **Code › Download ZIP** in cima alla pagina GitHub, poi estrai lo ZIP (oppure `git clone` del repository).
@@ -48,6 +52,12 @@ Ci sono due modi per usare l'estensione. Fanno esattamente la stessa cosa: scegl
 > Nota: la "modalità sviluppatore" è necessaria perché l'estensione non è (ancora) pubblicata sul Chrome Web Store. Non cancellare la cartella dopo l'installazione: Chrome la carica da lì a ogni avvio. Per aggiornare, sostituisci i file e clicca l'icona **↻ Aggiorna** sulla scheda dell'estensione.
 
 ### Modalità B — Userscript (`wa-copy-poll.user.js`)
+
+![Firefox](https://img.shields.io/badge/Firefox-FF7139?logo=firefoxbrowser&logoColor=white)
+![Chrome](https://img.shields.io/badge/Chrome-4285F4?logo=googlechrome&logoColor=white)
+![Edge](https://img.shields.io/badge/Edge-0078D7?logo=microsoftedge&logoColor=white)
+![Tampermonkey](https://img.shields.io/badge/Tampermonkey-00485B?logo=tampermonkey&logoColor=white)
+![Violentmonkey](https://img.shields.io/badge/Violentmonkey-663399?logo=violentmonkey&logoColor=white)
 
 Stessa funzionalità in un unico file, gestito da un'estensione "gestore di userscript" come **Tampermonkey** o **Violentmonkey**. Consigliata se già usi Tampermonkey o vuoi installare/aggiornare con un clic, anche su Firefox.
 
@@ -64,7 +74,7 @@ Stessa funzionalità in un unico file, gestito da un'estensione "gestore di user
 |---|---|---|
 | Installazione | carichi una cartella | un clic sul file Raw |
 | Serve un'app in più | no | sì (Tampermonkey/Violentmonkey) |
-| Browser | Chrome, Edge, Brave | anche Firefox |
+| Browser | ![Chrome](https://img.shields.io/badge/-4285F4?logo=googlechrome&logoColor=white) ![Edge](https://img.shields.io/badge/-0078D7?logo=microsoftedge&logoColor=white) ![Brave](https://img.shields.io/badge/-FB542B?logo=brave&logoColor=white) | ![Firefox](https://img.shields.io/badge/-FF7139?logo=firefoxbrowser&logoColor=white) ![Chrome](https://img.shields.io/badge/-4285F4?logo=googlechrome&logoColor=white) ![Edge](https://img.shields.io/badge/-0078D7?logo=microsoftedge&logoColor=white) |
 | Aggiornamento | ↻ manuale | automatico (se la versione cresce) |
 
 In entrambi i casi il codice è lo stesso e nessun dato viene raccolto o inviato: tutto resta in locale nel browser.
