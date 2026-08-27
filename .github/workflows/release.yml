@@ -1,0 +1,55 @@
+name: Release estensione
+
+# Si attiva quando si pusha un tag di versione, es: v1.0.3
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write # necessario per creare la release e caricare gli asset
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Verifica coerenza tag / versione manifest
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          MANIFEST=$(jq -r '.version' estensione/manifest.json)
+          echo "Tag:      $TAG"
+          echo "Manifest: $MANIFEST"
+          if [ "$TAG" != "$MANIFEST" ]; then
+            echo "::error::Il tag ($TAG) non coincide con la version nel manifest ($MANIFEST)."
+            exit 1
+          fi
+
+      - name: Crea pacchetto estensione (.zip)
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          ZIP="copia-sondaggi-per-whatsapp-${VERSION}.zip"
+          # Impacchetta SOLO i file necessari a Chrome, con estensione/ come radice
+          cd estensione
+          zip -r "../$ZIP" manifest.json content.js icons
+          cd ..
+          echo "ZIP=$ZIP" >> "$GITHUB_ENV"
+          echo "--- Contenuto del pacchetto ---"
+          unzip -l "$ZIP"
+
+      - name: Pubblica la release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" "$ZIP" \
+            --title "$GITHUB_REF_NAME" \
+            --generate-notes \
+            --notes "**Installazione (modalità sviluppatore)**
+          1. Scarica \`$ZIP\` qui sotto ed estrailo
+          2. Vai su \`chrome://extensions\`
+          3. Attiva la **Modalità sviluppatore**
+          4. **Carica estensione non pacchettizzata** → seleziona la cartella estratta
+
+          Lo stesso \`.zip\` è caricabile anche sul Chrome Web Store."
