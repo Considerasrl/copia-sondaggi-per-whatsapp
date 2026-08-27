@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WhatsApp Web - Copia sondaggio
 // @namespace    considera.whatsapp-copia-sondaggio
-// @version      3.4
+// @version      1.0.2
 // @description  Aggiunge una voce "Copia sondaggio" al menu dei messaggi di WhatsApp Web: copia le opzioni con almeno 1 voto nel formato "x{voti} {opzione}", una per riga.
 // @match        https://web.whatsapp.com/*
 // @grant        GM_setClipboard
