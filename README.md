@@ -1,5 +1,7 @@
 # Copia sondaggi per WhatsApp Web
 
+![Copia sondaggi per WhatsApp Web](estensione/store-1280x800.png)
+
 Estensione Chrome che aggiunge la voce **"Copia sondaggio"** al menu dei messaggi di [WhatsApp Web](https://web.whatsapp.com).
 Con un clic copia negli appunti le opzioni votate del sondaggio nel formato `x{voti} opzione`, una per riga — pronte da incollare in una nota, un foglio o una chat.
 
