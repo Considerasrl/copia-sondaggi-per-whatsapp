@@ -4,7 +4,7 @@
 // @version      1.0.2
 // @description  Aggiunge una voce "Copia sondaggio" al menu dei messaggi di WhatsApp Web: copia le opzioni con almeno 1 voto nel formato "x{voti} {opzione}", una per riga.
 // @match        https://web.whatsapp.com/*
-// @grant        GM_setClipboard
+// @grant        none
 // @run-at       document-idle
 // ==/UserScript==
 
@@ -66,11 +66,35 @@
     return out.join('\n');
   }
 
+  // Copia negli appunti.
+  // Su WhatsApp Web l'API asincrona navigator.clipboard può essere bloccata dalla
+  // Permissions-Policy della pagina: quindi usiamo prima execCommand('copy')
+  // (sincrono, affidabile durante il gesto di click) e solo come ripiego l'API
+  // asincrona.
   function copyToClipboard(text) {
-    if (typeof GM_setClipboard === 'function') {
-      GM_setClipboard(text, 'text');
-    } else {
+    if (execCopy(text)) return;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(text).catch(() => {});
+    }
+  }
+  function execCopy(text) {
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed';
+      ta.style.top = '0';
+      ta.style.left = '0';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      try { ta.setSelectionRange(0, text.length); } catch (_) {}
+      const ok = document.execCommand('copy');
+      ta.remove();
+      return ok;
+    } catch (_) {
+      return false;
     }
   }
 
