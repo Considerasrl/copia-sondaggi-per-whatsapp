@@ -1,5 +1,7 @@
 # Copia sondaggi per WhatsApp Web
 
+**🇮🇹 Italiano** · [🇬🇧 English](README.en.md)
+
 ![Copia sondaggi per WhatsApp Web](estensione/store-1280x800.png)
 
 [![Disponibile sul Chrome Web Store](https://img.shields.io/badge/Chrome_Web_Store-Installa-4285F4?logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/copia-sondaggi-per-whatsa/okhehibbboeojefajcjcikeehgkijnfk)
