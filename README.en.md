@@ -7,7 +7,7 @@
 [![Available in the Chrome Web Store](https://img.shields.io/badge/Chrome_Web_Store-Install-4285F4?logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/copia-sondaggi-per-whatsa/okhehibbboeojefajcjcikeehgkijnfk)
 
 Chrome extension that adds a **"Copy poll"** entry to the message menu on [WhatsApp Web](https://web.whatsapp.com).
-With one click it copies the poll's voted options to the clipboard in the format `x{votes} option`, one per line — ready to paste into a note, a spreadsheet or a chat.
+With one click it copies the poll's voted options to the clipboard in the format `x{votes} option`, one per line — ready to paste into a note, a spreadsheet or a chat. The format is **customizable**.
 
 ## How to use
 
@@ -24,10 +24,34 @@ x4 Option B
 x3 Option C
 ```
 
+## Customizable format
+
+You can decide how each option is written, using two placeholders:
+
+- `[n]` — the number of votes
+- `[opzione]` — the option's label
+
+**Extension:** click the **extension icon** in the browser toolbar → a small popup opens with the template field, a live preview and Save / Reset buttons. (If you don't see the icon, open it from the extensions menu 🧩 and pin it.)
+
+**Userscript:** open the poll menu (right‑click) and choose the **"Copy format"** entry (gear icon).
+
+The default format is `x[n] [opzione]`. A **live preview** and a **Reset** button (back to the default) are provided. A few examples:
+
+| Template | Result |
+|---|---|
+| `x[n] [opzione]` | `x8 Option A` |
+| `[opzione]: [n] votes` | `Option A: 8 votes` |
+| `[n] × [opzione]` | `8 × Option A` |
+
+> Note: the placeholder is `[opzione]` (Italian) in both languages, so the same saved template works across versions.
+
+The setting is stored locally in your browser (via `chrome.storage` in the extension, in the page's `localStorage` for the userscript).
+
 ## Features
 
 - Copies only the options with at least one vote, keeping the poll's order
-- No configuration: works out of the box
+- Customizable copy format with the `[n]` and `[opzione]` placeholders
+- Works out of the box with a sensible default format
 - Does not collect, store or transmit any data — everything happens locally in your browser
 
 ## Project structure

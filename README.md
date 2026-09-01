@@ -7,7 +7,7 @@
 [![Disponibile sul Chrome Web Store](https://img.shields.io/badge/Chrome_Web_Store-Installa-4285F4?logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/copia-sondaggi-per-whatsa/okhehibbboeojefajcjcikeehgkijnfk)
 
 Estensione Chrome che aggiunge la voce **"Copia sondaggio"** al menu dei messaggi di [WhatsApp Web](https://web.whatsapp.com).
-Con un clic copia negli appunti le opzioni votate del sondaggio nel formato `x{voti} opzione`, una per riga — pronte da incollare in una nota, un foglio o una chat.
+Con un clic copia negli appunti le opzioni votate del sondaggio nel formato `x{voti} opzione`, una per riga — pronte da incollare in una nota, un foglio o una chat. Il formato è **personalizzabile**.
 
 ## Come si usa
 
@@ -24,10 +24,32 @@ x4 Opzione B
 x3 Opzione C
 ```
 
+## Formato personalizzabile
+
+Puoi decidere come viene scritta ogni opzione, usando due segnaposto:
+
+- `[n]` — il numero di voti
+- `[opzione]` — l'etichetta dell'opzione
+
+**Estensione:** clicca l'**icona dell'estensione** nella barra degli strumenti del browser → si apre un piccolo popup con il campo del modello, l'anteprima e i pulsanti Salva / Ripristina. (Se non vedi l'icona, aprila dal menu dei componenti aggiuntivi 🧩 e fissala con la puntina.)
+
+**Userscript:** apri il menu del sondaggio (tasto destro) e scegli la voce **"Formato copia"** (icona ingranaggio).
+
+Il formato predefinito è `x[n] [opzione]`. Vengono mostrati un'**anteprima dal vivo** e un pulsante **Ripristina** per tornare al default. Qualche esempio:
+
+| Modello | Risultato |
+|---|---|
+| `x[n] [opzione]` | `x8 Opzione A` |
+| `[opzione]: [n] voti` | `Opzione A: 8 voti` |
+| `[n] × [opzione]` | `8 × Opzione A` |
+
+L'impostazione è salvata localmente nel browser (nell'estensione tramite `chrome.storage`, nell'userscript nel `localStorage` della pagina).
+
 ## Caratteristiche
 
 - Copia solo le opzioni con almeno un voto, mantenendo l'ordine del sondaggio
-- Nessuna configurazione: funziona subito
+- Formato di copia personalizzabile con i segnaposto `[n]` e `[opzione]`
+- Funziona subito con un formato predefinito sensato
 - Non raccoglie, memorizza o trasmette alcun dato — tutto avviene in locale nel browser
 
 ## Struttura del progetto

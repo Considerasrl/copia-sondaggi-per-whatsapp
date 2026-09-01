@@ -15,6 +15,34 @@
     '<path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/>' +
     '</svg>';
 
+  // --- Formato di copia personalizzabile -----------------------------------
+  // Il modello usa i segnaposto [n] (numero di voti) e [opzione] (etichetta).
+  // Si imposta dal popup dell'estensione (icona nella barra) ed è salvato in
+  // chrome.storage.local; qui lo teniamo in cache e lo aggiorniamo al volo.
+  const TEMPLATE_KEY = 'formato';
+  const DEFAULT_TEMPLATE = 'x[n] [opzione]';
+  let currentTemplate = DEFAULT_TEMPLATE;
+
+  try {
+    chrome.storage.local.get(TEMPLATE_KEY, (res) => {
+      const v = res && res[TEMPLATE_KEY];
+      if (typeof v === 'string' && v.length) currentTemplate = v;
+    });
+    chrome.storage.onChanged.addListener((changes, area) => {
+      if (area === 'local' && changes[TEMPLATE_KEY]) {
+        const v = changes[TEMPLATE_KEY].newValue;
+        currentTemplate = typeof v === 'string' && v.length ? v : DEFAULT_TEMPLATE;
+      }
+    });
+  } catch (_) {}
+
+  function getTemplate() {
+    return currentTemplate;
+  }
+  function formatOption(tpl, votes, label) {
+    return tpl.replace(/\[n\]/gi, votes).replace(/\[opzione\]/gi, label);
+  }
+
   // --- Bolla del messaggio cliccato (catturata al click) -------------------
   let lastBubble = null;
   const rememberBubble = (e) => {
@@ -41,13 +69,14 @@
       .map(clean)
       .filter(Boolean);
 
+    const tpl = getTemplate();
     const out = [];
     let label = null;
     for (const line of lines) {
       if (/^\d+$/.test(line)) {
         if (label !== null) {
           const v = parseInt(line, 10);
-          if (v > 0) out.push('x' + v + ' ' + label);
+          if (v > 0) out.push(formatOption(tpl, v, label));
           label = null;
         }
       } else {
@@ -135,7 +164,7 @@
       (ev) => {
         ev.stopPropagation();
         ev.preventDefault();
-        const text = extractPoll(bubble);
+        const text = extractPoll(bubble); // ricalcolo al click (voti aggiornati)
         copyToClipboard(text);
         if (iconSpan) iconSpan.innerHTML = CHECK_ICON_SVG;
         if (labelSpan) labelSpan.textContent = text ? 'Copiato!' : 'Nessun voto';
