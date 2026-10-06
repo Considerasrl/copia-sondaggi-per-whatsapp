@@ -29,9 +29,19 @@ Il file **`copia-sondaggi-web.zip`** (già generato in questa cartella) che cont
 
 ## 3. Privacy / Data usage (nel dashboard)
 - **Raccolta dati**: NESSUNA. Dichiara che non raccogli né trasmetti dati utente.
-- **Permessi**: l'estensione **non richiede permessi** e gira solo su `https://web.whatsapp.com/*`.
+- **Permessi**: dalla 1.2.0 l'estensione dichiara **`storage`** (prima nessuno) e gira solo su `https://web.whatsapp.com/*`.
+  - Giustificazione `storage` (campo obbligatorio in *Privacy practices*): "L'estensione salva solo le
+    preferenze di copia scelte dall'utente nel popup: il modello di testo con cui formattare le opzioni
+    copiate (ad esempio 'x[n] [opzione]'), se aggiungere il numero di votanti e il modello di quella riga
+    (ad esempio 'Votanti: [votanti]'). Serve chrome.storage.local perché i valori devono restare
+    disponibili tra una sessione e l'altra, e perché popup e content script sono contesti separati che non
+    condividono memoria: il content script su web.whatsapp.com li legge da lì al momento della copia.
+    Sono memorizzate solo queste preferenze: nessun dato personale, nessun contenuto dei messaggi o dei
+    sondaggi, e nulla lascia il browser."
+
   - Giustificazione host: "Il content script serve solo su web.whatsapp.com per aggiungere
-    la voce di menu e leggere il testo del sondaggio nella pagina; nessun dato lascia il browser."
+    la voce di menu e leggere il testo del sondaggio nella pagina (e, se l'utente lo attiva, il
+    pannello "Visualizza voti" per contare i votanti); nessun dato lascia il browser."
 - **Privacy policy URL**: non obbligatoria (nessun dato personale trattato). Se il form la richiede,
   basta una pagina che dichiari "questa estensione non raccoglie, memorizza o trasmette alcun dato".
 
@@ -42,7 +52,7 @@ Il file **`copia-sondaggi-web.zip`** (già generato in questa cartella) che cont
 
 ## 5. Revisione
 - Manuale, di solito da poche ore a qualche giorno.
-- Le grane tipiche: permessi eccessivi (qui zero) e marchi (evita "WhatsApp"/logo).
+- Le grane tipiche: permessi eccessivi (qui solo `storage`, da motivare) e marchi/logo Meta.
 
 ## Note tecniche
 - Clipboard: `navigator.clipboard.writeText` dentro il gesto di click, con fallback `execCommand`.

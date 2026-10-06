@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         WhatsApp Web - Copia sondaggio
 // @namespace    considera.whatsapp-copia-sondaggio
-// @version      1.1.0
-// @description  Aggiunge una voce "Copia sondaggio" al menu dei messaggi di WhatsApp Web: copia le opzioni con almeno 1 voto, con formato personalizzabile ([n] = voti, [opzione] = etichetta) tramite una finestra di impostazioni.
+// @version      1.3.0
+// @description  Aggiunge una voce "Copia sondaggio" al menu dei messaggi di WhatsApp Web: copia le opzioni con almeno 1 voto, con formato personalizzabile ([n] = voti, [opzione] = etichetta) e, a scelta, il numero di votanti effettivi.
 // @match        https://web.whatsapp.com/*
 // @grant        none
 // @run-at       document-idle
@@ -45,8 +45,41 @@
       localStorage.setItem(TEMPLATE_KEY, v);
     } catch (_) {}
   }
+  // Riga opzionale in fondo con il numero di votanti effettivi ([votanti]).
+  const VOTERS_KEY = 'considera:copiaSondaggi:votanti';
+  const VOTERS_TEMPLATE_KEY = 'considera:copiaSondaggi:formatoVotanti';
+  const DEFAULT_VOTERS_TEMPLATE = 'Votanti: [votanti]';
+
+  function getVotersEnabled() {
+    try {
+      return localStorage.getItem(VOTERS_KEY) === '1';
+    } catch (_) {
+      return false;
+    }
+  }
+  function setVotersEnabled(on) {
+    try {
+      localStorage.setItem(VOTERS_KEY, on ? '1' : '0');
+    } catch (_) {}
+  }
+  function getVotersTemplate() {
+    try {
+      const v = localStorage.getItem(VOTERS_TEMPLATE_KEY);
+      return v && v.length ? v : DEFAULT_VOTERS_TEMPLATE;
+    } catch (_) {
+      return DEFAULT_VOTERS_TEMPLATE;
+    }
+  }
+  function setVotersTemplate(v) {
+    try {
+      localStorage.setItem(VOTERS_TEMPLATE_KEY, v);
+    } catch (_) {}
+  }
   function formatOption(tpl, votes, label) {
     return tpl.replace(/\[n\]/gi, votes).replace(/\[opzione\]/gi, label);
+  }
+  function formatVoters(tpl, voters) {
+    return tpl.replace(/\[votanti\]/gi, voters);
   }
 
   // Finestra di impostazioni: modifica il modello con anteprima dal vivo.
@@ -103,15 +136,48 @@
       'margin:0;padding:10px 12px;border-radius:8px;background:' + field + ';color:' + fg + ';' +
       'font-size:14px;line-height:1.5;white-space:pre-wrap;word-break:break-word;font-family:inherit;min-height:20px;';
 
+    const votersRow = document.createElement('label');
+    votersRow.style.cssText =
+      'display:flex;align-items:center;gap:8px;margin-top:14px;font-size:14px;cursor:pointer;';
+    const votersCheck = document.createElement('input');
+    votersCheck.type = 'checkbox';
+    votersCheck.checked = getVotersEnabled();
+    votersCheck.style.cssText = 'margin:0;accent-color:' + accent + ';';
+    votersRow.appendChild(votersCheck);
+    votersRow.appendChild(document.createTextNode('Aggiungi il numero di votanti'));
+
+    const votersInput = document.createElement('input');
+    votersInput.type = 'text';
+    votersInput.value = getVotersTemplate();
+    votersInput.spellcheck = false;
+    votersInput.setAttribute('aria-label', 'Modello riga votanti');
+    votersInput.style.cssText = input.style.cssText + 'margin-top:8px;';
+
+    const votersNote = document.createElement('div');
+    votersNote.innerHTML =
+      '<b style="color:' + accent + '">[votanti]</b> = persone che hanno votato, contate una volta sola ' +
+      'anche se hanno scelto più opzioni. Per i sondaggi a scelta multipla viene aperto per un attimo ' +
+      'il pannello "Visualizza voti".';
+    votersNote.style.cssText = 'font-size:12px;line-height:1.4;color:' + sub + ';margin-top:6px;';
+
     const sample = [
       { label: 'Sì', n: 7 },
       { label: 'No', n: 2 },
     ];
+    const sampleVoters = 8;
     const renderPreview = () => {
       const tpl = input.value || DEFAULT_TEMPLATE;
-      preview.textContent = sample.map((o) => formatOption(tpl, o.n, o.label)).join('\n');
+      let text = sample.map((o) => formatOption(tpl, o.n, o.label)).join('\n');
+      if (votersCheck.checked) {
+        text += '\n\n' + formatVoters(votersInput.value || DEFAULT_VOTERS_TEMPLATE, sampleVoters);
+      }
+      preview.textContent = text;
+      votersInput.disabled = !votersCheck.checked;
+      votersInput.style.opacity = votersCheck.checked ? '1' : '.5';
     };
     input.addEventListener('input', renderPreview);
+    votersInput.addEventListener('input', renderPreview);
+    votersCheck.addEventListener('change', renderPreview);
     renderPreview();
 
     const btnRow = document.createElement('div');
@@ -132,6 +198,8 @@
     reset.style.marginRight = 'auto';
     reset.addEventListener('click', () => {
       input.value = DEFAULT_TEMPLATE;
+      votersCheck.checked = false;
+      votersInput.value = DEFAULT_VOTERS_TEMPLATE;
       renderPreview();
     });
 
@@ -142,6 +210,8 @@
     cancel.addEventListener('click', close);
     save.addEventListener('click', () => {
       setTemplate(input.value.trim() || DEFAULT_TEMPLATE);
+      setVotersEnabled(votersCheck.checked);
+      setVotersTemplate(votersInput.value.trim() || DEFAULT_VOTERS_TEMPLATE);
       close();
     });
     overlay.addEventListener('click', (e) => {
@@ -158,6 +228,9 @@
     panel.appendChild(title);
     panel.appendChild(help);
     panel.appendChild(input);
+    panel.appendChild(votersRow);
+    panel.appendChild(votersInput);
+    panel.appendChild(votersNote);
     panel.appendChild(previewLabel);
     panel.appendChild(preview);
     panel.appendChild(btnRow);
@@ -187,6 +260,7 @@
   // compaiono come coppie "etichetta" / "numero voti", fino all'orario o al
   // footer "Visualizza voti". Accoppio ogni etichetta col numero che la segue
   // e tengo solo le opzioni con voti > 0, nell'ordine del sondaggio.
+  // Restituisce le righe formattate e il totale dei voti.
   function extractPoll(bubble) {
     const lines = (bubble.innerText || '')
       .split('\n')
@@ -195,12 +269,16 @@
 
     const tpl = getTemplate();
     const out = [];
+    let total = 0;
     let label = null;
     for (const line of lines) {
       if (/^\d+$/.test(line)) {
         if (label !== null) {
           const v = parseInt(line, 10);
-          if (v > 0) out.push(formatOption(tpl, v, label));
+          if (v > 0) {
+            out.push(formatOption(tpl, v, label));
+            total += v;
+          }
           label = null;
         }
       } else {
@@ -210,19 +288,196 @@
         label = line;
       }
     }
-    return out.join('\n');
+    return { lines: out, total };
   }
 
-  // Copia negli appunti.
+  // --- Votanti effettivi ---------------------------------------------------
+  // Con risposta singola i votanti coincidono con la somma dei voti. Con scelta
+  // multipla una persona può votare più opzioni: i nomi stanno solo nel
+  // pannello "Visualizza voti", che apriamo, leggiamo e richiudiamo.
+  const DRAWER_SEL = '[data-testid="poll-details-drawer"]';
+  const DRAWER_OPTION_SEL = '[data-testid^="poll-details-option-"]';
+  const DRAWER_ROW_SEL = '[data-testid^="list-item-"]';
+
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+  async function waitFor(fn, ms) {
+    const end = Date.now() + ms;
+    while (Date.now() < end) {
+      const v = fn();
+      if (v) return v;
+      await sleep(50);
+    }
+    return null;
+  }
+
+  function isSingleChoice(bubble) {
+    if (bubble.querySelector('[data-icon^="multi-select"]')) return false;
+    return /seleziona un'|select one(?! or)/i.test(bubble.textContent || '');
+  }
+
+  const findDrawer = () => document.querySelector(DRAWER_SEL);
+  const drawerOptions = (root) => Array.prototype.slice.call(root.querySelectorAll(DRAWER_OPTION_SEL));
+  const drawerRows = (root) => Array.prototype.slice.call(root.querySelectorAll(DRAWER_ROW_SEL));
+
+  // "7 voti" / "1 voto": cerco il nodo che contiene solo il conteggio, per non
+  // confonderlo con eventuali numeri finali dell'etichetta.
+  function drawerOptionVotes(opt) {
+    const nodes = opt.querySelectorAll('span, div');
+    for (const n of nodes) {
+      const m = (n.textContent || '').trim().match(/^(\d+)\s+(vot[oi]|votes?)$/i);
+      if (m) return parseInt(m[1], 10);
+    }
+    return 0;
+  }
+
+  // Identità del votante: nome del contatto oppure, per i non salvati, numero.
+  // textContent e non innerText: le righe fuori vista hanno innerText vuoto.
+  function voterKey(row) {
+    const part = (id) => {
+      const el = row.querySelector('[data-testid="' + id + '"]');
+      return el ? clean(el.textContent) : '';
+    };
+    const key = part('cell-frame-title') + '|' + part('cell-frame-primary-detail');
+    return key === '|' ? null : key;
+  }
+
+  const findButton = (root, re) =>
+    Array.prototype.slice
+      .call(root.querySelectorAll('button, [role="button"]'))
+      .find((b) => re.test(b.getAttribute('aria-label') || ''));
+  const showAllButton = (opt) =>
+    Array.prototype.slice
+      .call(opt.querySelectorAll('button'))
+      .find((b) => /^(mostra tutt|view all|see all)/i.test(clean(b.textContent)));
+
+  // Raccoglie i votanti di un contenitore, scorrendolo se la lista è lunga.
+  async function collectVoters(root, set) {
+    const grab = () =>
+      drawerRows(root).forEach((r) => {
+        const k = voterKey(r);
+        if (k) set.add(k);
+      });
+    grab();
+    const scroller = Array.prototype.slice
+      .call(root.querySelectorAll('*'))
+      .find((x) => /(auto|scroll)/.test(getComputedStyle(x).overflowY) && x.scrollHeight > x.clientHeight + 20);
+    if (!scroller) return;
+    const step = Math.max(scroller.clientHeight / 2, 100);
+    for (let y = 0; y <= scroller.scrollHeight; y += step) {
+      scroller.scrollTop = y;
+      await sleep(120);
+      grab();
+    }
+    scroller.scrollTop = 0;
+  }
+
+  async function closeDrawer() {
+    for (let i = 0; i < 3; i++) {
+      const d = findDrawer();
+      if (!d) return;
+      const btn = findButton(d, /^(chiudi|close|indietro|back)$/i);
+      if (!btn) return;
+      btn.click();
+      await sleep(300);
+    }
+  }
+
+  // Restituisce il numero di persone distinte che hanno votato, oppure null
+  // se il pannello non si apre o i nomi letti non tornano con i voti.
+  async function countVotersFromDrawer(bubble) {
+    const viewBtn = bubble.querySelector('[data-testid="poll-view-votes"]');
+    if (!viewBtn) return null;
+    if (findDrawer()) {
+      await closeDrawer();
+      await waitFor(() => !findDrawer(), 2000);
+    }
+    viewBtn.click();
+    try {
+      // Pronto quando ogni opzione mostra tutti i suoi votanti o "Mostra tutti".
+      const ready = (d) =>
+        drawerOptions(d).length &&
+        drawerOptions(d).every((o) => showAllButton(o) || drawerRows(o).length >= drawerOptionVotes(o));
+      const main = await waitFor(() => {
+        const d = findDrawer();
+        return d && ready(d) ? d : null;
+      }, 5000);
+      if (!main) return null;
+
+      const voters = new Set();
+      const truncated = [];
+      let complete = true;
+      const nOptions = drawerOptions(main).length;
+      for (const o of drawerOptions(main)) {
+        if (showAllButton(o)) {
+          truncated.push(o.getAttribute('data-testid'));
+          continue;
+        }
+        const s = new Set();
+        drawerRows(o).forEach((r) => {
+          const k = voterKey(r);
+          if (k) s.add(k);
+        });
+        if (s.size < drawerOptionVotes(o)) complete = false;
+        s.forEach((k) => voters.add(k));
+      }
+
+      // Le opzioni troncate si aprono in una vista dedicata, poi "Indietro".
+      for (const tid of truncated) {
+        const o = await waitFor(() => {
+          const d = findDrawer();
+          const x = d && d.querySelector('[data-testid="' + tid + '"]');
+          return x && showAllButton(x) ? x : null;
+        }, 3000);
+        if (!o) return null;
+        const votes = drawerOptionVotes(o);
+        showAllButton(o).click();
+        const sub = await waitFor(() => {
+          const d = findDrawer();
+          return d && drawerOptions(d).length === 1 && drawerRows(d).length ? d : null;
+        }, 3000);
+        if (!sub) return null;
+        const s = new Set();
+        await collectVoters(sub, s);
+        if (s.size < votes) complete = false;
+        s.forEach((k) => voters.add(k));
+        const back = findButton(sub, /^(indietro|back)$/i);
+        if (!back) return null;
+        back.click();
+        await waitFor(() => {
+          const d = findDrawer();
+          return d && drawerOptions(d).length === nOptions;
+        }, 3000);
+      }
+      return complete ? voters.size : null;
+    } finally {
+      await closeDrawer();
+    }
+  }
+
+  async function countVoters(bubble, total) {
+    if (!total) return 0;
+    if (isSingleChoice(bubble)) return total;
+    try {
+      return await countVotersFromDrawer(bubble);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  // Copia negli appunti. Restituisce una Promise<boolean> con l'esito.
   // Su WhatsApp Web l'API asincrona navigator.clipboard può essere bloccata dalla
   // Permissions-Policy della pagina: quindi usiamo prima execCommand('copy')
   // (sincrono, affidabile durante il gesto di click) e solo come ripiego l'API
   // asincrona.
   function copyToClipboard(text) {
-    if (execCopy(text)) return;
+    if (execCopy(text)) return Promise.resolve(true);
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).catch(() => {});
+      return navigator.clipboard.writeText(text).then(
+        () => true,
+        () => false
+      );
     }
+    return Promise.resolve(false);
   }
   function execCopy(text) {
     try {
@@ -299,11 +554,25 @@
     };
 
     const copyItem = makeItem('Copia sondaggio', POLL_ICON_SVG, (iconSpan, labelSpan) => {
-      const text = extractPoll(bubble); // ricalcolo al click (voti aggiornati)
+      const poll = extractPoll(bubble); // ricalcolo al click (voti aggiornati)
+      const text = poll.lines.join('\n');
+      // Copia subito, dentro il gesto di click: se poi il conteggio dei
+      // votanti fallisce, negli appunti restano comunque le opzioni.
       copyToClipboard(text);
-      if (iconSpan) iconSpan.innerHTML = CHECK_ICON_SVG;
-      if (labelSpan) labelSpan.textContent = text ? 'Copiato!' : 'Nessun voto';
-      setTimeout(() => closeMenuByClickingOutside(menu), 250);
+      const done = (msg) => {
+        if (iconSpan) iconSpan.innerHTML = CHECK_ICON_SVG;
+        if (labelSpan) labelSpan.textContent = msg;
+        setTimeout(() => closeMenuByClickingOutside(menu), 250);
+      };
+      if (!text) return done('Nessun voto');
+      if (!getVotersEnabled()) return done('Copiato!');
+      if (labelSpan) labelSpan.textContent = 'Conto i votanti…';
+      countVoters(bubble, poll.total).then((voters) => {
+        if (voters === null) return done('Copiato (senza votanti)');
+        copyToClipboard(text + '\n\n' + formatVoters(getVotersTemplate(), voters)).then((ok) =>
+          done(ok ? 'Copiato!' : 'Copiato (senza votanti)')
+        );
+      });
     });
 
     const settingsItem = makeItem('Formato copia', GEAR_ICON_SVG, () => {

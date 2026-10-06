@@ -45,13 +45,27 @@ The default format is `x[n] [opzione]`. A **live preview** and a **Reset** butto
 
 > Note: the placeholder is `[opzione]` (Italian) in both languages, so the same saved template works across versions.
 
-The setting is stored locally in your browser (via `chrome.storage` in the extension, in the page's `localStorage` for the userscript).
+### Number of voters (optional)
+
+Turning on **"Aggiungi il numero di votanti"** (add the number of voters) appends a line at the end of the copied text with the people who voted, each counted **only once** even if they picked several options. The line's template uses the `[votanti]` placeholder (default `Votanti: [votanti]`):
+
+```
+x7 Yes
+x2 No
+
+Votanti: 8
+```
+
+For single‑answer polls the number equals the sum of the votes. For **multiple‑choice** polls the voters' names are only available in the "View votes" panel: when you click "Copia sondaggio" the panel is briefly opened, read and closed. If counting fails for any reason, the options are still copied and the menu entry shows "Copiato (senza votanti)".
+
+The settings are stored locally in your browser (via `chrome.storage` in the extension, in the page's `localStorage` for the userscript).
 
 ## Features
 
 - Copies only the options with at least one vote, keeping the poll's order
 - Customizable copy format with the `[n]` and `[opzione]` placeholders
 - Works out of the box with a sensible default format
+- Optional: a line with the actual number of voters (each counted once)
 - Does not collect, store or transmit any data — everything happens locally in your browser
 
 ## Project structure

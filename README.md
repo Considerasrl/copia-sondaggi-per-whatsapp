@@ -43,13 +43,27 @@ Il formato predefinito è `x[n] [opzione]`. Vengono mostrati un'**anteprima dal 
 | `[opzione]: [n] voti` | `Opzione A: 8 voti` |
 | `[n] × [opzione]` | `8 × Opzione A` |
 
-L'impostazione è salvata localmente nel browser (nell'estensione tramite `chrome.storage`, nell'userscript nel `localStorage` della pagina).
+### Numero di votanti (opzionale)
+
+Attivando **"Aggiungi il numero di votanti"** in fondo al testo copiato si aggiunge una riga con le persone che hanno votato, contate **una volta sola** anche se hanno scelto più opzioni. Il modello della riga usa il segnaposto `[votanti]` (predefinito `Votanti: [votanti]`):
+
+```
+x7 Sì
+x2 No
+
+Votanti: 8
+```
+
+Nei sondaggi a risposta singola il numero coincide con la somma dei voti. In quelli a **scelta multipla** i nomi dei votanti si trovano solo nel pannello "Visualizza voti": al clic su "Copia sondaggio" il pannello viene aperto per un attimo, letto e richiuso. Se per qualche motivo il conteggio non riesce, vengono copiate comunque le opzioni e la voce del menu mostra "Copiato (senza votanti)".
+
+Le impostazioni sono salvate localmente nel browser (nell'estensione tramite `chrome.storage`, nell'userscript nel `localStorage` della pagina).
 
 ## Caratteristiche
 
 - Copia solo le opzioni con almeno un voto, mantenendo l'ordine del sondaggio
 - Formato di copia personalizzabile con i segnaposto `[n]` e `[opzione]`
 - Funziona subito con un formato predefinito sensato
+- Opzionale: riga con il numero di votanti effettivi (ognuno contato una volta sola)
 - Non raccoglie, memorizza o trasmette alcun dato — tutto avviene in locale nel browser
 
 ## Struttura del progetto
