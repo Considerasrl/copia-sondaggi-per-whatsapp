@@ -62,7 +62,20 @@
       font-size: 14px;
       outline: none;
     }
-    input#tpl:focus, input#votersTpl:focus { border-color: var(--accent); }
+    input#tpl:focus, input#votersTpl:focus, select#lang:focus { border-color: var(--accent); }
+    select#lang {
+      width: 100%;
+      padding: 8px 10px;
+      margin-bottom: 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--field);
+      color: var(--fg);
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      cursor: pointer;
+    }
     input#votersTpl {
       width: 100%;
       padding: 9px 11px;
@@ -133,32 +146,31 @@
   </style>
 </head>
 <body>
-  <h1>Formato copia sondaggio</h1>
-  <p class="help">
-    Come viene scritta ogni opzione. Segnaposto:
-    <b>[n]</b> = numero di voti, <b>[opzione]</b> = etichetta.
-  </p>
+  <!-- I testi vengono scritti da popup.js nella lingua scelta (i18n.js). -->
+  <h1 id="title"></h1>
 
-  <label class="field-label" for="tpl">Modello</label>
+  <label class="field-label" for="lang" id="langLabel"></label>
+  <select id="lang"></select>
+
+  <p class="help" id="help"></p>
+
+  <label class="field-label" for="tpl" id="tplLabel"></label>
   <input id="tpl" type="text" spellcheck="false" autocomplete="off" />
 
-  <label class="check"><input id="voters" type="checkbox" /> Aggiungi il numero di votanti</label>
-  <input id="votersTpl" type="text" spellcheck="false" autocomplete="off" aria-label="Modello riga votanti" />
-  <p class="note">
-    <b>[votanti]</b> = persone che hanno votato, contate una volta sola anche se hanno
-    scelto più opzioni. Per i sondaggi a scelta multipla viene aperto per un attimo
-    il pannello "Visualizza voti".
-  </p>
+  <label class="check"><input id="voters" type="checkbox" /> <span id="votersLabel"></span></label>
+  <input id="votersTpl" type="text" spellcheck="false" autocomplete="off" />
+  <p class="note" id="votersNote"></p>
 
-  <label class="field-label preview-label">Anteprima</label>
+  <label class="field-label preview-label" id="previewLabel"></label>
   <pre id="preview"></pre>
 
   <div class="row">
-    <button id="reset" class="ghost" type="button">Ripristina</button>
-    <span id="saved">Salvato ✓</span>
-    <button id="save" class="primary" type="button">Salva</button>
+    <button id="reset" class="ghost" type="button"></button>
+    <span id="saved"></span>
+    <button id="save" class="primary" type="button"></button>
   </div>
 
+  <script src="i18n.js"></script>
   <script src="popup.js"></script>
 </body>
 </html>

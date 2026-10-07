@@ -1,0 +1,14 @@
+{
+  "extName": {
+    "message": "Umfragen kopieren für WhatsApp Web",
+    "description": "Nome dell'estensione"
+  },
+  "extDescription": {
+    "message": "Kopiert die gewählten Optionen einer Umfrage als Text und erstellt Umfragen aus einer Liste. Anpassbares Format.",
+    "description": "Descrizione breve (max 132 caratteri)"
+  },
+  "actionTitle": {
+    "message": "Umfragen kopieren — Einstellungen",
+    "description": "Tooltip dell'icona nella barra"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "extName": {
+    "message": "Copia sondaggi per WhatsApp Web",
+    "description": "Nome dell'estensione"
+  },
+  "extDescription": {
+    "message": "Copia le opzioni votate di un sondaggio come testo e crea sondaggi da una lista. Formato personalizzabile ([n], [opzione]).",
+    "description": "Descrizione breve (max 132 caratteri)"
+  },
+  "actionTitle": {
+    "message": "Copia sondaggi — impostazioni",
+    "description": "Tooltip dell'icona nella barra"
+  }
+}

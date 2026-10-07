@@ -1,0 +1,14 @@
+{
+  "extName": {
+    "message": "Poll Copier for WhatsApp Web",
+    "description": "Nome dell'estensione"
+  },
+  "extDescription": {
+    "message": "Copy a poll's voted options as text and create polls from a list. Customizable format ([n], [option]).",
+    "description": "Descrizione breve (max 132 caratteri)"
+  },
+  "actionTitle": {
+    "message": "Poll Copier — settings",
+    "description": "Tooltip dell'icona nella barra"
+  }
+}

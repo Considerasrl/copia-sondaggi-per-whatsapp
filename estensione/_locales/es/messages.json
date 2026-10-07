@@ -1,0 +1,14 @@
+{
+  "extName": {
+    "message": "Copiar encuestas para WhatsApp Web",
+    "description": "Nome dell'estensione"
+  },
+  "extDescription": {
+    "message": "Copia las opciones votadas de una encuesta como texto y crea encuestas a partir de una lista. Formato personalizable.",
+    "description": "Descrizione breve (max 132 caratteri)"
+  },
+  "actionTitle": {
+    "message": "Copiar encuestas — ajustes",
+    "description": "Tooltip dell'icona nella barra"
+  }
+}

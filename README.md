@@ -8,6 +8,7 @@
 
 Estensione Chrome che aggiunge la voce **"Copia sondaggio"** al menu dei messaggi di [WhatsApp Web](https://web.whatsapp.com).
 Con un clic copia negli appunti le opzioni votate del sondaggio nel formato `x{voti} opzione`, una per riga — pronte da incollare in una nota, un foglio o una chat. Il formato è **personalizzabile**.
+E fa anche il contrario: da una lista di testo **crea un sondaggio** pronto da inviare (voce **"Sondaggio da testo"**).
 
 ## Come si usa
 
@@ -58,17 +59,39 @@ Nei sondaggi a risposta singola il numero coincide con la somma dei voti. In que
 
 Le impostazioni sono salvate localmente nel browser (nell'estensione tramite `chrome.storage`, nell'userscript nel `localStorage` della pagina).
 
+## Sondaggio da testo
+
+Per creare un sondaggio partendo da una lista (un menu, delle date, dei nomi…):
+
+1. Apri la chat in cui vuoi il sondaggio
+2. Clicca **+** (Allega) e scegli **"Sondaggio da testo"**, sotto "Sondaggio"
+3. Scrivi la domanda e incolla la lista: **una riga per opzione**
+4. Controlla l'anteprima e premi **Compila sondaggio**
+5. Si apre il modulo "Sondaggio" di WhatsApp già compilato: verificalo e premi **Invia** tu
+
+La lista viene ripulita da sola: righe vuote, puntati (`-`, `•`, `1.`, `2)`…) e `;` o `,` finali vengono tolti, i duplicati esatti scartati (con un avviso). Prima di compilare vengono controllati i limiti di WhatsApp: da 2 a **12 opzioni**, massimo **100 caratteri** per opzione e **255** per la domanda (le emoji contano come un carattere). La casella **"Consenti più risposte"** imposta lo stesso interruttore del modulo di WhatsApp.
+
+## Lingue
+
+L'interfaccia è disponibile in **italiano, inglese, francese, tedesco e spagnolo**. Dopo l'installazione usa la **lingua del browser** (se non è tra queste, l'inglese); si può cambiare in qualsiasi momento dalle impostazioni (**Lingua**: popup dell'estensione o finestra "Formato copia" dell'userscript).
+
+I segnaposto funzionano in tutte le lingue: `[opzione]` = `[option]` = `[opción]`, `[votanti]` = `[voters]` = `[votants]` = `[teilnehmer]` = `[votantes]`. Un modello già salvato resta valido anche cambiando lingua; quello predefinito segue la lingua scelta.
+
+L'estensione funziona anche con **WhatsApp Web impostato in un'altra lingua**: pulsanti, menu e pannelli vengono riconosciuti da segnali che non dipendono dalla lingua (icone e attributi della pagina), non dai testi.
+
 ## Caratteristiche
 
 - Copia solo le opzioni con almeno un voto, mantenendo l'ordine del sondaggio
 - Formato di copia personalizzabile con i segnaposto `[n]` e `[opzione]`
 - Funziona subito con un formato predefinito sensato
 - Opzionale: riga con il numero di votanti effettivi (ognuno contato una volta sola)
+- Crea un sondaggio da una lista di testo, rispettando i limiti di WhatsApp; l'invio resta a te
+- Interfaccia in 5 lingue (IT, EN, FR, DE, ES), automatica in base al browser o scelta nelle impostazioni
 - Non raccoglie, memorizza o trasmette alcun dato — tutto avviene in locale nel browser
 
 ## Struttura del progetto
 
-- `estensione/` — estensione Chrome (`manifest.json`, `content.js`, icone, materiali per lo store)
+- `estensione/` — estensione Chrome (`manifest.json`, `content.js`, `i18n.js` con le traduzioni, popup, `_locales/` per nome e descrizione, icone, materiali per lo store)
 - `wa-copy-poll.user.js` — versione userscript (Tampermonkey/Violentmonkey)
 
 ## Installazione

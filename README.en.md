@@ -8,6 +8,7 @@
 
 Chrome extension that adds a **"Copy poll"** entry to the message menu on [WhatsApp Web](https://web.whatsapp.com).
 With one click it copies the poll's voted options to the clipboard in the format `x{votes} option`, one per line — ready to paste into a note, a spreadsheet or a chat. The format is **customizable**.
+It also works the other way round: from a text list it **creates a poll** ready to send (**"Sondaggio da testo"** entry, i.e. poll from text).
 
 ## How to use
 
@@ -60,17 +61,39 @@ For single‑answer polls the number equals the sum of the votes. For **multiple
 
 The settings are stored locally in your browser (via `chrome.storage` in the extension, in the page's `localStorage` for the userscript).
 
+## Poll from text
+
+To create a poll from a list (a menu, some dates, names…):
+
+1. Open the chat where you want the poll
+2. Click **+** (Attach) and choose **"Sondaggio da testo"**, below "Poll"
+3. Type the question and paste the list: **one line per option**
+4. Check the preview and press **Compila sondaggio** (fill in poll)
+5. WhatsApp's own "Poll" form opens already filled in: review it and press **Send** yourself
+
+The list is cleaned up automatically: empty lines, bullets (`-`, `•`, `1.`, `2)`…) and trailing `;` or `,` are removed, exact duplicates are dropped (with a warning). WhatsApp's limits are checked before filling: 2 to **12 options**, at most **100 characters** per option and **255** for the question (emoji count as one character). The **"Consenti più risposte"** (allow multiple answers) checkbox sets the same switch in WhatsApp's form.
+
+## Languages
+
+The interface is available in **Italian, English, French, German and Spanish**. After installation it uses the **browser language** (English if it isn't one of these); you can change it at any time in the settings (**Language**: the extension popup, or the userscript's "Copy format" window).
+
+Placeholders work in every language: `[opzione]` = `[option]` = `[opción]`, `[votanti]` = `[voters]` = `[votants]` = `[teilnehmer]` = `[votantes]`. A saved template keeps working after a language change; the default one follows the selected language.
+
+The extension also works with **WhatsApp Web set to another language**: buttons, menus and panels are recognized from language‑independent signals (icons and page attributes), not from their text.
+
 ## Features
 
 - Copies only the options with at least one vote, keeping the poll's order
 - Customizable copy format with the `[n]` and `[opzione]` placeholders
 - Works out of the box with a sensible default format
 - Optional: a line with the actual number of voters (each counted once)
+- Creates a poll from a text list, within WhatsApp's limits; sending is up to you
+- Interface in 5 languages (IT, EN, FR, DE, ES), automatic from the browser or chosen in the settings
 - Does not collect, store or transmit any data — everything happens locally in your browser
 
 ## Project structure
 
-- `estensione/` — Chrome extension (`manifest.json`, `content.js`, icons, store assets)
+- `estensione/` — Chrome extension (`manifest.json`, `content.js`, `i18n.js` with the translations, popup, `_locales/` for name and description, icons, store assets)
 - `wa-copy-poll.user.js` — userscript version (Tampermonkey/Violentmonkey)
 
 ## Installation

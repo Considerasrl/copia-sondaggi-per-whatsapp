@@ -10,6 +10,8 @@ Copia sondaggi per WhatsApp Web aggiunge una voce "Copia sondaggio" al menu dei 
 
 Con un clic copia negli appunti le opzioni votate del sondaggio, nel formato "x{voti} opzione" (personalizzabile), una per riga. A scelta aggiunge in fondo il numero di persone che hanno votato, contate una volta sola anche se hanno scelto più opzioni. Comodo per riepiloghi, ordini e conteggi da incollare in una nota, un foglio o una chat.
 
+Novità: "Sondaggio da testo". Dal menu + (Allega) incolli una lista, una riga per opzione, e l'estensione compila il modulo "Sondaggio" di WhatsApp: tu controlli e premi Invia. Righe vuote, puntati e ";" finali vengono tolti, i duplicati scartati, e vengono rispettati i limiti di WhatsApp (massimo 12 opzioni da 100 caratteri).
+
 Come si usa:
 - Apri web.whatsapp.com
 - Tasto destro (o menu a tendina) su un messaggio con sondaggio
@@ -28,6 +30,8 @@ Caratteristiche:
 - Mantiene l'ordine del sondaggio
 - Formato di copia personalizzabile dall'icona dell'estensione
 - Opzionale: numero di votanti effettivi (nei sondaggi a scelta multipla viene aperto per un attimo il pannello "Visualizza voti")
+- Crea un sondaggio da una lista di testo (l'invio resta a te)
+- Interfaccia in italiano, inglese, francese, tedesco e spagnolo (automatica in base al browser)
 - Nessuna configurazione obbligatoria: funziona subito
 - Leggera e senza impatto sulla pagina
 
@@ -38,4 +42,4 @@ Nota: estensione indipendente, non affiliata né approvata da WhatsApp o Meta. "
 
 ## Single purpose (campo dedicato)
 
-Copiare come testo le opzioni votate di un sondaggio dal menu del messaggio su web.whatsapp.com.
+Convertire i sondaggi di web.whatsapp.com da e verso testo: copiarne le opzioni votate e crearne di nuovi da una lista.

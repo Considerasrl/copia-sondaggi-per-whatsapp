@@ -41,7 +41,8 @@ Il file **`copia-sondaggi-web.zip`** (già generato in questa cartella) che cont
 
   - Giustificazione host: "Il content script serve solo su web.whatsapp.com per aggiungere
     la voce di menu e leggere il testo del sondaggio nella pagina (e, se l'utente lo attiva, il
-    pannello "Visualizza voti" per contare i votanti); nessun dato lascia il browser."
+    pannello "Visualizza voti" per contare i votanti) e per compilare il modulo "Sondaggio" di WhatsApp con la
+    lista incollata dall'utente nella funzione "Sondaggio da testo"; nessun dato lascia il browser."
 - **Privacy policy URL**: non obbligatoria (nessun dato personale trattato). Se il form la richiede,
   basta una pagina che dichiari "questa estensione non raccoglie, memorizza o trasmette alcun dato".
 
